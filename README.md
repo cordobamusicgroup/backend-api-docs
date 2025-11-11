@@ -371,7 +371,6 @@ try {
 ### Distributor Values
 - `KONTOR` - Kontor New Media
 - `BELIEVE` - Believe Digital
-- `DMB` - Digital Music Box
 
 ### Payment Status (debitState)
 - `PENDING` - Payment not yet processed
