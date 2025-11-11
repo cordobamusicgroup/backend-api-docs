@@ -9,6 +9,7 @@ Welcome to the Córdoba Music Group API documentation. This guide will help you 
 ```
 
 Replace `{{base_url}}` with your environment URL:
+
 - **Development:** `http://localhost:3000`
 - **Production:** Contact your administrator for the production URL
 
@@ -25,6 +26,7 @@ Authenticate and receive an access token to use with subsequent requests.
 **Endpoint:** `POST /auth/login`
 
 **Request:**
+
 ```json
 {
   "username": "your_username",
@@ -33,6 +35,7 @@ Authenticate and receive an access token to use with subsequent requests.
 ```
 
 **Response:**
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -41,6 +44,7 @@ Authenticate and receive an access token to use with subsequent requests.
 ```
 
 **Important Notes:**
+
 - The access token expires after **15 minutes** (900 seconds)
 - For API integrations, we recommend re-authenticating with each request
 - A refresh token is automatically stored in cookies for web applications
@@ -64,6 +68,7 @@ If your access token expires, you can get a new one without re-entering credenti
 The refresh token is automatically sent via cookies. No request body needed.
 
 **Response:**
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -80,11 +85,13 @@ Retrieve information about the authenticated user.
 **Endpoint:** `GET /auth/me`
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Response:**
+
 ```json
 {
   "id": 123,
@@ -105,6 +112,7 @@ End your session and revoke tokens.
 **Endpoint:** `POST /auth/logout`
 
 **Response:**
+
 ```json
 {
   "message": "Logged out successfully"
@@ -123,21 +131,24 @@ Retrieve all financial reports for the authenticated user, filtered by distribut
 
 **Query Parameters:**
 
-| Parameter | Required | Description | Valid Values |
-|-----------|----------|-------------|--------------|
-| `distributor` | Yes | Music distributor name | `KONTOR`, `BELIEVE` |
+| Parameter     | Required | Description            | Valid Values       |
+| ------------- | -------- | ---------------------- | ------------------ |
+| `distributor` | Yes      | Music distributor name | `KONTOR`, `BELIEVE` |
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Example Request:**
+
 ```
 GET /financial/reports/user-reports/current?distributor=KONTOR
 ```
 
 **Response:**
+
 ```json
 [
   {
@@ -167,17 +178,17 @@ GET /financial/reports/user-reports/current?distributor=KONTOR
 
 **Response Fields:**
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | number | Unique report identifier (use this to download files) |
-| `createdAt` | string | When the report was created (ISO 8601 format) |
-| `updatedAt` | string | Last update timestamp (ISO 8601 format) |
-| `currency` | string | Currency code (EUR, USD, etc.) |
-| `distributor` | string | Distributor name: KONTOR, BELIEVE, or DMB |
+| Field            | Type   | Description                                                   |
+| ---------------- | ------ | ------------------------------------------------------------- |
+| `id`             | number | Unique report identifier (use this to download files)         |
+| `createdAt`      | string | When the report was created (ISO 8601 format)                 |
+| `updatedAt`      | string | Last update timestamp (ISO 8601 format)                       |
+| `currency`       | string | Currency code (EUR, USD, etc.)                                |
+| `distributor`    | string | Distributor name: KONTOR, BELIEVE, or DMB                     |
 | `reportingMonth` | string | Report period in YYYYMM format (e.g., "202508" = August 2025) |
-| `totalRoyalties` | number | Total royalty amount for this period |
-| `debitState` | string | Payment status: `PENDING`, `PAID`, or `CANCELLED` |
-| `paidOn` | string | Payment date (null if not yet paid) |
+| `totalRoyalties` | number | Total royalty amount for this period                          |
+| `debitState`     | string | Payment status: `PENDING`, `PAID`, or `CANCELLED`             |
+| `paidOn`         | string | Payment date (null if not yet paid)                           |
 
 ---
 
@@ -189,21 +200,24 @@ Get download links for a specific report. Reports are available in multiple form
 
 **Path Parameters:**
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `id` | number | Report ID (from the reports list) |
+| Parameter | Type   | Description                       |
+| --------- | ------ | --------------------------------- |
+| `id`      | number | Report ID (from the reports list) |
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Example Request:**
+
 ```
 GET /financial/reports/user-reports/download/options/7289
 ```
 
 **Response:**
+
 ```json
 {
   "groupedByLabels": "https://s3.amazonaws.com/bucket/reports/7289_labels.csv?AWSAccessKeyId=...",
@@ -217,26 +231,136 @@ GET /financial/reports/user-reports/download/options/7289
 
 **Download Options:**
 
-| Field | Description |
-|-------|-------------|
-| `groupedByLabels` | Report data grouped by record labels |
-| `groupedByArtists` | Report data grouped by artists |
-| `groupedByReleases` | Report data grouped by music releases |
-| `groupedByPlatform` | Report data grouped by streaming platforms (Spotify, Apple Music, etc.) |
-| `groupedByCountries` | Report data grouped by countries |
-| `fullCatalog` | Complete report with all detailed data |
+| Field                | Description                                                             |
+| -------------------- | ----------------------------------------------------------------------- |
+| `groupedByLabels`    | Report data grouped by record labels                                    |
+| `groupedByArtists`   | Report data grouped by artists                                          |
+| `groupedByReleases`  | Report data grouped by music releases                                   |
+| `groupedByPlatform`  | Report data grouped by streaming platforms (Spotify, Apple Music, etc.) |
+| `groupedByCountries` | Report data grouped by countries                                        |
+| `fullCatalog`        | Complete report with all detailed data                                  |
 
 **Important Notes:**
+
 - All URLs are **temporary presigned links** that expire after **1 hour**
 - Download URLs can be `null` if the file is still being generated (try again in a few minutes)
 - Each URL points directly to a CSV file - no authentication needed for download
 - Simply open the URL in a browser or use it with any HTTP client to download
 
 **Example Download:**
+
 ```bash
 # Download the full catalog file
 curl -O "https://s3.amazonaws.com/bucket/reports/7289_full.csv?AWSAccessKeyId=..."
 ```
+
+---
+
+## Music Distribution (WordPress Integration)
+
+### Submit Release for Quality Control
+
+Submit a music release to the WordPress legacy system for quality control review. This endpoint validates the release in DMB, fetches all release details, and submits them to WordPress Gravity Forms.
+
+**Endpoint:** `POST /external/wordpress/submit-release`
+
+**Request Headers:**
+```
+Authorization: Bearer <access_token>
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "productCode": "1234567890123",
+  "newAlbumTitle": "New Album Title (Optional)",
+  "newAlbumVersion": "Explicit (Optional)",
+  "trackChanges": [
+    {
+      "trackId": "12345",
+      "newTitle": "New Track Title (Optional)",
+      "newVersion": "Radio Edit (Optional)"
+    }
+  ]
+}
+```
+
+**Request Fields:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `productCode` | string | Yes | EAN/UPC code of the release (13 digits) |
+| `newAlbumTitle` | string | No | Proposed new title for the album |
+| `newAlbumVersion` | string | No | Proposed new version for the album |
+| `trackChanges` | array | No | List of track modifications |
+| `trackChanges[].trackId` | string | Yes | DMB Track ID |
+| `trackChanges[].newTitle` | string | No | Proposed new title for the track |
+| `trackChanges[].newVersion` | string | No | Proposed new version for the track |
+
+**Example Request:**
+```bash
+curl -X POST https://api.example.com/external/wordpress/submit-release \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "productCode": "1234567890123",
+    "newAlbumTitle": "Greatest Hits (Deluxe Edition)",
+    "trackChanges": [
+      {
+        "trackId": "98765",
+        "newTitle": "Hit Song",
+        "newVersion": "Radio Edit"
+      }
+    ]
+  }'
+```
+
+**Response (200 OK):**
+```json
+{
+  "entryId": 42,
+  "productCode": "1234567890123",
+  "releaseTitle": "Greatest Hits",
+  "submittedAt": "2025-11-11T15:30:00.000Z",
+  "gravityFormsUrl": "https://wordpress.example.com/wp-admin/admin.php?page=gf_entries&view=entry&id=91&lid=42"
+}
+```
+
+**Response Fields:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `entryId` | number | WordPress Gravity Forms entry ID |
+| `productCode` | string | EAN/UPC code submitted |
+| `releaseTitle` | string | Title of the release |
+| `submittedAt` | string | Submission timestamp (ISO 8601) |
+| `gravityFormsUrl` | string | Direct link to view the entry in WordPress admin |
+
+**Process Flow:**
+
+1. **Validation:** System validates the release exists in DMB and is ready for QC
+2. **Data Fetch:** Retrieves complete release details from DMB (tracks, artists, label, etc.)
+3. **Submission:** Submits all data to WordPress Gravity Forms (Form ID 91)
+4. **Response:** Returns the entry ID and confirmation details
+
+**Important Notes:**
+
+- Only releases in **"Ready for QC"** status in DMB can be submitted
+- The system automatically fetches all release metadata from DMB
+- User email and ID are automatically included from the authenticated session
+- The endpoint is available for both USER and ADMIN roles
+
+**Error Responses:**
+
+| Status Code | Description |
+|-------------|-------------|
+| 400 | Bad Request - Invalid product code or missing required fields |
+| 401 | Unauthorized - Invalid or missing access token |
+| 403 | Forbidden - User doesn't have permission |
+| 404 | Not Found - Release not found in DMB |
+| 422 | Unprocessable Entity - Release not ready for QC in DMB |
+| 500 | Internal Server Error - Failed to submit to WordPress |
 
 ---
 
@@ -245,6 +369,7 @@ curl -O "https://s3.amazonaws.com/bucket/reports/7289_full.csv?AWSAccessKeyId=..
 Here's a complete workflow from login to downloading a report:
 
 ### Step 1: Login
+
 ```bash
 curl -X POST https://api.example.com/auth/login \
   -H "Content-Type: application/json" \
@@ -255,6 +380,7 @@ curl -X POST https://api.example.com/auth/login \
 ```
 
 **Response:**
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -263,12 +389,14 @@ curl -X POST https://api.example.com/auth/login \
 ```
 
 ### Step 2: Get Reports List
+
 ```bash
 curl -X GET "https://api.example.com/financial/reports/user-reports/current?distributor=KONTOR" \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 ```
 
 **Response:**
+
 ```json
 [
   {
@@ -282,12 +410,14 @@ curl -X GET "https://api.example.com/financial/reports/user-reports/current?dist
 ```
 
 ### Step 3: Get Download URLs
+
 ```bash
 curl -X GET "https://api.example.com/financial/reports/user-reports/download/options/7289" \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 ```
 
 **Response:**
+
 ```json
 {
   "fullCatalog": "https://s3.amazonaws.com/bucket/reports/7289_full.csv?...",
@@ -297,6 +427,7 @@ curl -X GET "https://api.example.com/financial/reports/user-reports/download/opt
 ```
 
 ### Step 4: Download the File
+
 ```bash
 curl -O "https://s3.amazonaws.com/bucket/reports/7289_full.csv?..."
 ```
@@ -317,36 +448,38 @@ All errors follow this format:
 
 ### Common HTTP Status Codes
 
-| Code | Meaning | What to Do |
-|------|---------|------------|
-| 200 | Success | Request completed successfully |
-| 400 | Bad Request | Check your request parameters |
-| 401 | Unauthorized | Your token is invalid or expired - login again |
-| 403 | Forbidden | You don't have permission to access this resource |
-| 404 | Not Found | The resource doesn't exist |
-| 429 | Too Many Requests | You're making too many requests - slow down |
-| 500 | Internal Server Error | Something went wrong on our end - try again later |
+| Code | Meaning               | What to Do                                        |
+| ---- | --------------------- | ------------------------------------------------- |
+| 200  | Success               | Request completed successfully                    |
+| 400  | Bad Request           | Check your request parameters                     |
+| 401  | Unauthorized          | Your token is invalid or expired - login again    |
+| 403  | Forbidden             | You don't have permission to access this resource |
+| 404  | Not Found             | The resource doesn't exist                        |
+| 429  | Too Many Requests     | You're making too many requests - slow down       |
+| 500  | Internal Server Error | Something went wrong on our end - try again later |
 
 ---
 
 ## Best Practices
 
 ### 1. Token Management
+
 - **Access tokens expire after 15 minutes**
 - For simple API clients: Re-login before each request or session
 - For advanced clients: Implement refresh token flow
 - Always handle 401 errors by re-authenticating
 
 ### 2. Error Handling
+
 ```javascript
 // Example pseudocode
 try {
-  response = makeAPIRequest()
+  response = makeAPIRequest();
   if (response.status === 401) {
     // Token expired - login again
-    newToken = login()
+    newToken = login();
     // Retry original request
-    response = makeAPIRequest()
+    response = makeAPIRequest();
   }
 } catch (error) {
   // Handle network or other errors
@@ -354,12 +487,14 @@ try {
 ```
 
 ### 3. Download URLs
+
 - Download URLs expire after 1 hour
 - Don't store these URLs permanently
 - Request new URLs when needed
 - If a URL returns null, the file is still being generated - wait and try again
 
 ### 4. Rate Limiting
+
 - The API has rate limits to prevent abuse
 - If you receive a 429 error, wait before retrying
 - Implement exponential backoff for retries
@@ -369,16 +504,20 @@ try {
 ## Data Reference
 
 ### Distributor Values
+
 - `KONTOR` - Kontor New Media
 - `BELIEVE` - Believe Digital
 
 ### Payment Status (debitState)
+
 - `PENDING` - Payment not yet processed
 - `PAID` - Payment completed
 - `CANCELLED` - Payment was cancelled
 
 ### Reporting Month Format
+
 Format: `YYYYMM`
+
 - `202501` = January 2025
 - `202508` = August 2025
 - `202512` = December 2025
@@ -388,11 +527,13 @@ Format: `YYYYMM`
 ## Support
 
 ### Getting Help
+
 - Contact your account manager for API credentials
 - Report issues or bugs through your support channel
 - Check this documentation for updates
 
 ### Security
+
 - Always use **HTTPS** in production
 - Never share your credentials or tokens
 - Tokens are personal - don't use someone else's token
@@ -402,14 +543,15 @@ Format: `YYYYMM`
 
 ## Quick Reference
 
-| Endpoint | Method | Auth Required | Description |
-|----------|--------|---------------|-------------|
-| `/auth/login` | POST | No | Login and get access token |
-| `/auth/refresh` | POST | Cookie | Refresh expired token |
-| `/auth/me` | GET | Yes | Get current user info |
-| `/auth/logout` | POST | Cookie | Logout and revoke tokens |
-| `/financial/reports/user-reports/current` | GET | Yes | List all reports by distributor |
-| `/financial/reports/user-reports/download/options/:id` | GET | Yes | Get download URLs for a report |
+| Endpoint                                               | Method | Auth Required | Description                                  |
+| ------------------------------------------------------ | ------ | ------------- | -------------------------------------------- |
+| `/auth/login`                                          | POST   | No            | Login and get access token                   |
+| `/auth/refresh`                                        | POST   | Cookie        | Refresh expired token                        |
+| `/auth/me`                                             | GET    | Yes           | Get current user info                        |
+| `/auth/logout`                                         | POST   | Cookie        | Logout and revoke tokens                     |
+| `/financial/reports/user-reports/current`              | GET    | Yes           | List all reports by distributor              |
+| `/financial/reports/user-reports/download/options/:id` | GET    | Yes           | Get download URLs for a report               |
+| `/external/wordpress/submit-release`                   | POST   | Yes           | Submit music release for quality control (QC) |
 
 ---
 
