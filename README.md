@@ -125,7 +125,7 @@ Retrieve all financial reports for the authenticated user, filtered by distribut
 
 | Parameter | Required | Description | Valid Values |
 |-----------|----------|-------------|--------------|
-| `distributor` | Yes | Music distributor name | `KONTOR`, `BELIEVE`, `DMB` |
+| `distributor` | Yes | Music distributor name | `KONTOR`, `BELIEVE` |
 
 **Headers:**
 ```
