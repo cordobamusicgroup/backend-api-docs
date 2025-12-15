@@ -12,11 +12,13 @@ Instructions for running the documentation site locally on your computer.
 Before starting, ensure you have installed:
 
 - **Ruby** 3.0 or higher
+
   - Windows: Download from [ruby-lang.org](https://www.ruby-lang.org/en/downloads/)
   - macOS: `brew install ruby`
   - Linux: `apt-get install ruby` or `yum install ruby`
 
 - **Bundler** (Ruby dependency manager)
+
   ```bash
   gem install bundler
   ```
@@ -39,6 +41,7 @@ bundle install
 ```
 
 This installs:
+
 - Jekyll (~4.3)
 - Theme and plugins
 - All required gems
@@ -50,6 +53,7 @@ bundle exec jekyll serve
 ```
 
 **Expected output:**
+
 ```
 Configuration file: /path/to/_config.yml
             Source: /path/to/
@@ -176,6 +180,7 @@ gem install jekyll bundler
 ```
 
 Then run:
+
 ```bash
 bundle install
 ```
@@ -252,7 +257,7 @@ Output in `_site/` folder ready to deploy.
 - Ruby gems (.gem files)
 - Environment files (.env)
 - API tokens or credentials
-- Generated site (_site/)
+- Generated site (\_site/)
 
 Use `.gitignore` to prevent accidental commits.
 

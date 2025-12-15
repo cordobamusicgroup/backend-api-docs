@@ -28,14 +28,15 @@ The automatic deployment is triggered when:
 - ✅ **Manual trigger** via workflow_dispatch
 
 The deployment only happens on:
+
 - Push to `main` or `master` branch
 - Successfully built without errors
 
 ### Branches
 
-| Branch | Deployment | Purpose |
-|--------|-----------|---------|
-| `main` / `master` | ✅ Yes | Production deployment |
+| Branch             | Deployment    | Purpose                |
+| ------------------ | ------------- | ---------------------- |
+| `main` / `master`  | ✅ Yes        | Production deployment  |
 | `staging` / others | 🔄 Build only | Testing, no deployment |
 
 ---
@@ -43,6 +44,7 @@ The deployment only happens on:
 ## 📋 GitHub Actions Workflow
 
 ### File Location
+
 ```
 .github/workflows/deploy.yml
 ```
@@ -59,6 +61,7 @@ The deployment only happens on:
 ### Status Checks
 
 Check deployment status:
+
 1. Go to repository → **Actions** tab
 2. View latest workflow run
 3. Check build and deployment logs
@@ -74,14 +77,14 @@ name: Build and Deploy GitHub Pages
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
     paths:
-      - '**.md'           # Only build on .md changes
-      - '_config.yml'
-      - '.github/workflows/deploy.yml'
-  pull_request:           # Also test on PRs
-    branches: [ main, master ]
-  workflow_dispatch:      # Manual trigger
+      - "**.md" # Only build on .md changes
+      - "_config.yml"
+      - ".github/workflows/deploy.yml"
+  pull_request: # Also test on PRs
+    branches: [main, master]
+  workflow_dispatch: # Manual trigger
 
 permissions:
   contents: read
@@ -93,8 +96,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:                  # Build Jekyll site
-  deploy:                 # Deploy to GitHub Pages
+  build: # Build Jekyll site
+  deploy: # Deploy to GitHub Pages
 ```
 
 ### Jekyll Config: `_config.yml`
@@ -116,11 +119,13 @@ markdown: kramdown
 ### Add a New Documentation Page
 
 1. **Create** a new `.md` file in `guides/` or `api/`:
+
    ```
    guides/new-guide.md
    ```
 
 2. **Add front matter** at the top:
+
    ```markdown
    ---
    layout: default
@@ -129,6 +134,7 @@ markdown: kramdown
    ```
 
 3. **Commit** to `main` branch:
+
    ```bash
    git add guides/new-guide.md
    git commit -m "Add new documentation guide"
@@ -156,17 +162,20 @@ markdown: kramdown
 ### Check Deployment Status
 
 **In GitHub:**
+
 ```
 Repository → Actions → Latest Workflow Run
 ```
 
 **Expected output:**
+
 - ✅ build - Successful
 - ✅ deploy - Successful
 
 ### View Live Site
 
 After successful deployment:
+
 ```
 https://cordobamusicgroup.github.io/backend-api-docs
 ```
@@ -176,12 +185,14 @@ Wait 1-2 minutes for changes to appear.
 ### Check for Errors
 
 If deployment fails:
+
 1. Go to **Actions** tab
 2. Click failed workflow
 3. Expand job logs
 4. Look for error messages
 
 Common errors:
+
 - **Jekyll syntax** - Fix Markdown formatting
 - **Missing layout** - Ensure front matter has `layout: default`
 - **Relative links** - Use correct path format
@@ -191,12 +202,14 @@ Common errors:
 ## 🔄 Build vs Deploy
 
 ### Build Phase
+
 - Runs on: All pushes to any branch
 - Tests: Jekyll compilation
 - Result: Build artifact
 - Purpose: Validation
 
 ### Deploy Phase
+
 - Runs on: Successful build to `main`/`master`
 - Action: Publish to GitHub Pages
 - URL: https://cordobamusicgroup.github.io/backend-api-docs
@@ -211,6 +224,7 @@ Common errors:
 **Problem:** Changes pushed but site not updated
 
 **Solutions:**
+
 1. Check **Actions** tab for failed workflows
 2. Wait 2-3 minutes for deployment
 3. Clear browser cache (Ctrl+Shift+Del)
@@ -221,6 +235,7 @@ Common errors:
 **Problem:** Workflow shows failed build
 
 **Solutions:**
+
 1. Check error in workflow logs
 2. Validate Markdown syntax
 3. Verify front matter is correct
@@ -231,6 +246,7 @@ Common errors:
 **Problem:** Build succeeded but deploy failed
 
 **Solutions:**
+
 1. Check GitHub Pages settings (usually auto-configured)
 2. Verify branch is `main` or `master`
 3. Check repository permissions
@@ -243,6 +259,7 @@ Common errors:
 ### Auto-configured by Workflow
 
 The workflow automatically configures:
+
 - ✅ Source: GitHub Actions
 - ✅ Branch: N/A (uses artifacts)
 - ✅ Directory: / (root)

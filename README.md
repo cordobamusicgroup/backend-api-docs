@@ -30,7 +30,7 @@ This documentation automatically updates whenever you push changes!
 
 The CMG Backend API provides access to:
 
-- 🔐 **User Authentication** - JWT-based token authentication  
+- 🔐 **User Authentication** - JWT-based token authentication
 - 📊 **Financial Reports** - Royalty reports from multiple distributors
 - 📥 **Report Downloads** - Multiple format options (CSV)
 - 🎵 **Music Distribution** - Quality control submission system
@@ -70,6 +70,7 @@ index.md                        # Home page
 ## 🚀 Getting Started
 
 ### 1. Read the Getting Started Guide
+
 Learn about base URLs, authentication, and making your first request.
 
 → [Read Guide](./guides/getting-started.md)
@@ -186,8 +187,8 @@ Retrieve all financial reports for the authenticated user, filtered by distribut
 
 **Query Parameters:**
 
-| Parameter     | Required | Description            | Valid Values       |
-| ------------- | -------- | ---------------------- | ------------------ |
+| Parameter     | Required | Description            | Valid Values        |
+| ------------- | -------- | ---------------------- | ------------------- |
 | `distributor` | Yes      | Music distributor name | `KONTOR`, `BELIEVE` |
 
 **Headers:**
@@ -320,12 +321,14 @@ Submit a music release to the WordPress legacy system for quality control review
 **Endpoint:** `POST /external/wordpress/submit-release`
 
 **Request Headers:**
+
 ```
 Authorization: Bearer <access_token>
 Content-Type: application/json
 ```
 
 **Request Body:**
+
 ```json
 {
   "productCode": "1234567890123",
@@ -343,17 +346,18 @@ Content-Type: application/json
 
 **Request Fields:**
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `productCode` | string | Yes | EAN/UPC code of the release (13 digits) |
-| `newAlbumTitle` | string | No | Proposed new title for the album |
-| `newAlbumVersion` | string | No | Proposed new version for the album |
-| `trackChanges` | array | No | List of track modifications |
-| `trackChanges[].trackId` | string | Yes | DMB Track ID |
-| `trackChanges[].newTitle` | string | No | Proposed new title for the track |
-| `trackChanges[].newVersion` | string | No | Proposed new version for the track |
+| Field                       | Type   | Required | Description                             |
+| --------------------------- | ------ | -------- | --------------------------------------- |
+| `productCode`               | string | Yes      | EAN/UPC code of the release (13 digits) |
+| `newAlbumTitle`             | string | No       | Proposed new title for the album        |
+| `newAlbumVersion`           | string | No       | Proposed new version for the album      |
+| `trackChanges`              | array  | No       | List of track modifications             |
+| `trackChanges[].trackId`    | string | Yes      | DMB Track ID                            |
+| `trackChanges[].newTitle`   | string | No       | Proposed new title for the track        |
+| `trackChanges[].newVersion` | string | No       | Proposed new version for the track      |
 
 **Example Request:**
+
 ```bash
 curl -X POST https://api.example.com/external/wordpress/submit-release \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
@@ -372,6 +376,7 @@ curl -X POST https://api.example.com/external/wordpress/submit-release \
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "entryId": 42,
@@ -384,12 +389,12 @@ curl -X POST https://api.example.com/external/wordpress/submit-release \
 
 **Response Fields:**
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `entryId` | number | WordPress Gravity Forms entry ID |
-| `productCode` | string | EAN/UPC code submitted |
-| `releaseTitle` | string | Title of the release |
-| `submittedAt` | string | Submission timestamp (ISO 8601) |
+| Field             | Type   | Description                                      |
+| ----------------- | ------ | ------------------------------------------------ |
+| `entryId`         | number | WordPress Gravity Forms entry ID                 |
+| `productCode`     | string | EAN/UPC code submitted                           |
+| `releaseTitle`    | string | Title of the release                             |
+| `submittedAt`     | string | Submission timestamp (ISO 8601)                  |
 | `gravityFormsUrl` | string | Direct link to view the entry in WordPress admin |
 
 **Process Flow:**
@@ -408,14 +413,14 @@ curl -X POST https://api.example.com/external/wordpress/submit-release \
 
 **Error Responses:**
 
-| Status Code | Description |
-|-------------|-------------|
-| 400 | Bad Request - Invalid product code or missing required fields |
-| 401 | Unauthorized - Invalid or missing access token |
-| 403 | Forbidden - User doesn't have permission |
-| 404 | Not Found - Release not found in DMB |
-| 422 | Unprocessable Entity - Release not ready for QC in DMB |
-| 500 | Internal Server Error - Failed to submit to WordPress |
+| Status Code | Description                                                   |
+| ----------- | ------------------------------------------------------------- |
+| 400         | Bad Request - Invalid product code or missing required fields |
+| 401         | Unauthorized - Invalid or missing access token                |
+| 403         | Forbidden - User doesn't have permission                      |
+| 404         | Not Found - Release not found in DMB                          |
+| 422         | Unprocessable Entity - Release not ready for QC in DMB        |
+| 500         | Internal Server Error - Failed to submit to WordPress         |
 
 ---
 
@@ -598,14 +603,14 @@ Format: `YYYYMM`
 
 ## Quick Reference
 
-| Endpoint                                               | Method | Auth Required | Description                                  |
-| ------------------------------------------------------ | ------ | ------------- | -------------------------------------------- |
-| `/auth/login`                                          | POST   | No            | Login and get access token                   |
-| `/auth/refresh`                                        | POST   | Cookie        | Refresh expired token                        |
-| `/auth/me`                                             | GET    | Yes           | Get current user info                        |
-| `/auth/logout`                                         | POST   | Cookie        | Logout and revoke tokens                     |
-| `/financial/reports/user-reports/current`              | GET    | Yes           | List all reports by distributor              |
-| `/financial/reports/user-reports/download/options/:id` | GET    | Yes           | Get download URLs for a report               |
+| Endpoint                                               | Method | Auth Required | Description                                   |
+| ------------------------------------------------------ | ------ | ------------- | --------------------------------------------- |
+| `/auth/login`                                          | POST   | No            | Login and get access token                    |
+| `/auth/refresh`                                        | POST   | Cookie        | Refresh expired token                         |
+| `/auth/me`                                             | GET    | Yes           | Get current user info                         |
+| `/auth/logout`                                         | POST   | Cookie        | Logout and revoke tokens                      |
+| `/financial/reports/user-reports/current`              | GET    | Yes           | List all reports by distributor               |
+| `/financial/reports/user-reports/download/options/:id` | GET    | Yes           | Get download URLs for a report                |
 | `/external/wordpress/submit-release`                   | POST   | Yes           | Submit music release for quality control (QC) |
 
 ---
