@@ -1,13 +1,36 @@
-# Jekyll
-_site/
-.jekyll-cache/
-.jekyll-metadata
-Gemfile.lock
+# MkDocs
+site/
+.mkdocs.yml.bak
 
-# Ruby
-*.gem
-.bundle/
-.ruby-version
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv
+.env
 
 # IDE
 .vscode/
@@ -20,17 +43,20 @@ Gemfile.lock
 .DS_Store
 Thumbs.db
 
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Build
-dist/
-build/
-*.log
+# Ruby (old)
+_site/
+.jekyll-cache/
+.jekyll-metadata
+Gemfile.lock
+*.gem
+.bundle/
+.ruby-version
 
 # Node (if used)
 node_modules/
 npm-debug.log
 yarn-error.log
+
+# Build
+*.log
+

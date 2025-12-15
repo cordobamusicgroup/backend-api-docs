@@ -1,17 +1,18 @@
-name: Build and Deploy GitHub Pages
+name: Build and Deploy MkDocs to GitHub Pages
 
 on:
   push:
     branches: [main, master]
     paths:
-      - "**.md"
-      - "_config.yml"
+      - "docs/**"
+      - "mkdocs.yml"
+      - "requirements.txt"
       - ".github/workflows/deploy.yml"
   pull_request:
     branches: [main, master]
     paths:
-      - "**.md"
-      - "_config.yml"
+      - "docs/**"
+      - "mkdocs.yml"
   workflow_dispatch:
 
 permissions:
@@ -33,21 +34,27 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          ruby-version: "3.3"
-          bundler-cache: true
+          python-version: "3.11"
+          cache: "pip"
 
-      - name: Build with Jekyll
-        run: bundle exec jekyll build
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build with MkDocs
+        run: mkdocs build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "./_site"
+          path: "site"
 
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
