@@ -1,23 +1,78 @@
 # CMG Backend API Documentation
 
-Welcome to the Córdoba Music Group API documentation. This guide will help you integrate with our royalty management platform.
+> Comprehensive API documentation for the Córdoba Music Group royalty management platform
 
-## Base URL
+[![Documentation](https://img.shields.io/badge/docs-latest-blue)](https://cordobamusicgroup.github.io/backend-api-docs)
+[![API Version](https://img.shields.io/badge/api-v1.0.0-green)](./guides/data-reference.md)
+[![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
-```
-{{base_url}}
-```
+## 📦 Auto-Deploy to GitHub Pages
 
-Replace `{{base_url}}` with your environment URL:
+This documentation automatically updates whenever you push changes!
 
-- **Development:** `http://localhost:3000`
-- **Production:** Contact your administrator for the production URL
+- **✅ Trigger:** Any `.md` file or `_config.yml` changes
+- **🎯 Target branch:** `main` or `master`
+- **⏱️ Deploy time:** ~1-2 minutes after push
+- **📊 Status:** Check [Actions](https://github.com/cordobamusicgroup/backend-api-docs/actions) tab
+
+→ [Learn about CI/CD & Deployment](./guides/deployment.md)
+
+## 📚 Quick Links
+
+- **📖 [View Live Documentation](https://cordobamusicgroup.github.io/backend-api-docs)** - GitHub Pages site
+- **🚀 [Get Started](./guides/getting-started.md)** - Begin integration
+- **🔑 [Authentication Guide](./guides/authentication.md)** - JWT token setup
+- **💻 [Code Examples](./guides/examples.md)** - JavaScript, Python, cURL
+- **📋 [Quick Reference](./guides/quick-reference.md)** - Common tasks
+- **🔄 [Deployment Info](./guides/deployment.md)** - CI/CD pipeline
+
+## 🎯 Overview
+
+The CMG Backend API provides access to:
+
+- 🔐 **User Authentication** - JWT-based token authentication  
+- 📊 **Financial Reports** - Royalty reports from multiple distributors
+- 📥 **Report Downloads** - Multiple format options (CSV)
+- 🎵 **Music Distribution** - Quality control submission system
 
 ---
 
-## Authentication
+## 🌐 GitHub Pages Hosting & Auto-Deploy
 
-All API requests (except login) require authentication using JWT tokens.
+This documentation is hosted on **GitHub Pages** with **automatic CI/CD deployment**:
+
+### How It Works
+
+1. **Push Markdown changes** to `main` or `master` branch
+2. **GitHub Actions** automatically detects the changes
+3. **Jekyll builds** the static site
+4. **GitHub Pages** deploys the updated documentation
+5. **Site updates** in ~1-2 minutes
+
+### Setup Required
+
+Everything is already configured! No additional setup needed.
+
+### File Structure
+
+```
+.github/workflows/deploy.yml    # CI/CD Pipeline (auto-configured)
+_config.yml                      # Jekyll configuration
+guides/                         # Documentation guides
+api/                            # API reference docs
+index.md                        # Home page
+```
+
+→ [Full Deployment Guide](./guides/deployment.md)
+
+---
+
+## 🚀 Getting Started
+
+### 1. Read the Getting Started Guide
+Learn about base URLs, authentication, and making your first request.
+
+→ [Read Guide](./guides/getting-started.md)
 
 ### Login
 

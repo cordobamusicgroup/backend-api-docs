@@ -7,6 +7,16 @@ title: CMG Backend API Documentation
 
 Welcome to the **Córdoba Music Group** API documentation. This comprehensive guide will help you integrate with our royalty management platform.
 
+## 📦 Auto-Updating Documentation
+
+This site is automatically deployed to GitHub Pages whenever Markdown files are updated!
+
+- **✅ Automatic updates** when pushing `.md` files to `main`/`master`
+- **⏱️ Live in 1-2 minutes** after push
+- **🔄 No manual deployment needed**
+
+→ [Learn about the CI/CD Pipeline](./guides/deployment.md)
+
 ## 🚀 Quick Start
 
 - **New here?** Start with the [Getting Started Guide](./guides/getting-started.md)
@@ -23,6 +33,10 @@ Learn the basics: base URLs, environment configuration, and initial setup.
 ### [Authentication](./guides/authentication.md)
 
 Deep dive into JWT authentication, token management, and security best practices.
+
+### [Deployment & CI/CD](./guides/deployment.md)
+
+Learn how documentation is automatically deployed to GitHub Pages when you push Markdown changes.
 
 ### [API Endpoints](./api/)
 
@@ -44,7 +58,9 @@ Guidelines for token management, error handling, and rate limiting.
 
 Lookup tables for distributors, payment statuses, and format specifications.
 
----
+### [Local Development](./guides/local-development.md)
+
+Set up and run the documentation site locally for editing and testing.
 
 ## 🔑 Key Information
 
