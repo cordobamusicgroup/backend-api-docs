@@ -1,0 +1,279 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+:root {
+  --cmg-primary: #09365F;
+  --cmg-primary-strong: #001B33;
+  --cmg-accent: #ED3238;
+  --cmg-surface: #e8eaf0;
+  --cmg-ink: #1e293b;
+  --cmg-muted: #64748b;
+  --cmg-border: #cbd5e0;
+}
+
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: var(--cmg-primary);
+  --md-primary-fg-color--light: #0f4c81;
+  --md-primary-fg-color--dark: var(--cmg-primary-strong);
+  --md-accent-fg-color: var(--cmg-accent);
+  --md-default-bg-color: var(--cmg-surface);
+  --md-default-fg-color: var(--cmg-ink);
+  --md-default-fg-color--light: #475569;
+  --md-default-fg-color--lighter: var(--cmg-muted);
+  --md-code-bg-color: #d4d8e0;
+  --md-footer-bg-color: var(--cmg-primary-strong);
+  --md-footer-fg-color: #e5e7eb;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #6db8ff;
+  --md-primary-fg-color--light: #92cbff;
+  --md-primary-fg-color--dark: #3c7bd1;
+  --md-accent-fg-color: #4ef2d2;
+  --md-default-bg-color: #0b1021;
+  --md-default-fg-color: #e5e7eb;
+  --md-default-fg-color--light: #c4cad4;
+  --md-default-fg-color--lighter: #9aa2b1;
+  --md-code-bg-color: #0f172a;
+  --md-footer-bg-color: #070c18;
+  --md-footer-fg-color: #cfd3dc;
+}
+
+body {
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+  color: var(--md-default-fg-color);
+  background: var(--md-default-bg-color);
+}
+
+.md-typeset code,
+.md-typeset pre {
+  font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+}
+
+.md-typeset a,
+.md-nav__link {
+  font-weight: 600;
+}
+
+/* Button refinements */
+.md-button {
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.md-button:hover {
+  transform: translateY(-1px);
+}
+
+.md-button--primary {
+  background: linear-gradient(120deg, var(--cmg-primary) 0%, var(--cmg-primary-strong) 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 10px 30px -10px rgba(9, 54, 95, 0.55);
+}
+
+.md-button--secondary {
+  background: transparent;
+  color: var(--md-default-fg-color);
+  border: 1px solid var(--cmg-border);
+}
+
+.md-button--ghost {
+  background: transparent;
+  color: var(--cmg-primary);
+  border: none;
+  padding-left: 0;
+}
+
+/* Hero layout */
+.cmg-hero {
+  background: linear-gradient(135deg, #09365F 0%, #001B33 50%, #000814 100%);
+  padding: 3.5rem 1.2rem 2.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 18px;
+  border: 1px solid #1e3a52;
+  box-shadow: 0 20px 60px -30px rgba(0, 27, 51, 0.3);
+}
+
+[data-md-color-scheme="slate"] .cmg-hero {
+  background: linear-gradient(135deg, #09365F 0%, #001B33 50%, #000814 100%);
+  border-color: #1e3a52;
+}
+
+.cmg-hero__body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  align-items: center;
+}
+
+.cmg-hero__copy h1 {
+  font-size: 2.4rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.1;
+  color: #ffffff;
+}
+
+.cmg-hero__copy .cmg-lead {
+  font-size: 1.05rem;
+  color: #cbd5e1;
+  max-width: 38rem;
+  margin-bottom: 1.25rem;
+}
+
+.cmg-hero__actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.cmg-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(237, 50, 56, 0.2);
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+[data-md-color-scheme="slate"] .cmg-pill {
+  background: rgba(237, 50, 56, 0.2);
+  color: #ffffff;
+}
+
+.cmg-hero__panel {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 16px 40px -28px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+[data-md-color-scheme="slate"] .cmg-hero__panel {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.cmg-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.8rem;
+}
+
+.cmg-stat-card {
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+[data-md-color-scheme="slate"] .cmg-stat-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.cmg-stat-label {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin-bottom: 0.2rem;
+}
+
+.cmg-stat-value {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Feature grid */
+.cmg-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.cmg-feature-card {
+  background: #ffffff;
+  border: 1px solid var(--cmg-border);
+  border-radius: 14px;
+  padding: 1.1rem 1.2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.cmg-feature-card:hover {
+  box-shadow: 0 4px 12px rgba(9, 54, 95, 0.12);
+  transform: translateY(-2px);
+}
+
+.cmg-feature-card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--cmg-primary-strong);
+}
+
+.cmg-feature-card p {
+  margin: 0;
+  color: var(--cmg-muted);
+}
+
+.cmg-feature-heading {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.cmg-feature-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(9, 54, 95, 0.08);
+  font-weight: 700;
+}
+
+[data-md-color-scheme="slate"] .cmg-feature-card {
+  background: #ffffff;
+  border-color: var(--cmg-border);
+}
+
+[data-md-color-scheme="slate"] .cmg-feature-icon {
+  background: rgba(9, 54, 95, 0.08);
+}
+
+/* Table and card polish */
+.md-typeset table:not([class]) {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--cmg-border);
+}
+
+.md-typeset table:not([class]) th {
+  background: rgba(15, 76, 129, 0.08);
+  font-weight: 700;
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) th {
+  background: rgba(15, 76, 129, 0.16);
+}
+
+.md-typeset blockquote {
+  border-left: 3px solid var(--cmg-primary);
+  color: var(--md-default-fg-color--lighter);
+}
+
+.md-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}

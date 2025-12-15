@@ -8,6 +8,7 @@ edit_uri: edit/main/docs/
 theme:
   name: material
   language: en
+  custom_dir: overrides
   features:
     - navigation.instant
     - navigation.instant.prefetch
@@ -25,23 +26,13 @@ theme:
     - content.code.select
     - content.tabs.link
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: blue
-      accent: blue
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: blue
-      accent: blue
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
-  font:
-    text: Roboto
-    code: Roboto Mono
+    scheme: default
+    primary: custom
+    accent: custom
+  font: false
+
+extra_css:
+  - styles/theme.css
 
 plugins:
   - search:
@@ -71,18 +62,16 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Guides:
+  - API Reference:
+      - Overview: api/index.md
+      - Financial Reports: api/financial-reports.md
+      - Music Distribution: api/music-distribution.md
+  - REST API Guidelines:
       - Getting Started: guides/getting-started.md
       - Authentication: guides/authentication.md
       - Best Practices: guides/best-practices.md
       - Examples: guides/examples.md
       - Data Reference: guides/data-reference.md
       - Quick Reference: guides/quick-reference.md
-      - Local Development: guides/local-development.md
-      - Deployment & CI/CD: guides/deployment.md
-  - API:
-      - Overview: api/index.md
-      - Financial Reports: api/financial-reports.md
-      - Music Distribution: api/music-distribution.md
 
 copyright: Copyright &copy; 2025 Córdoba Music Group

@@ -1,0 +1,47 @@
+{% extends "main.html" %} {% block tabs %} {{ super() }} {% if page.meta.hero %}
+<section class="cmg-hero">
+  <div class="cmg-hero__body">
+    <div class="cmg-hero__copy">
+      {% if page.meta.hero.badge %}
+      <p class="cmg-pill">{{ page.meta.hero.badge }}</p>
+      {% endif %}
+      <h1>{{ page.meta.hero.title }}</h1>
+      <p class="cmg-lead">{{ page.meta.hero.description }}</p>
+      {% if page.meta.hero.actions %}
+      <div class="cmg-hero__actions">
+        {% for action in page.meta.hero.actions %}
+        <a class="md-button{% if action.primary %} md-button--primary{% else %} md-button--secondary{% endif %}" href="{{ action.url | url }}"> {{ action.label }} </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% if page.meta.hero.metrics %}
+    <div class="cmg-hero__panel">
+      <div class="cmg-stat-grid">
+        {% for metric in page.meta.hero.metrics %}
+        <div class="cmg-stat-card">
+          <p class="cmg-stat-label">{{ metric.label }}</p>
+          <p class="cmg-stat-value">{{ metric.value }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %} {% if page.meta.features %}
+<section class="cmg-feature-grid">
+  {% for feature in page.meta.features %}
+  <article class="cmg-feature-card">
+    <div class="cmg-feature-heading">
+      {% if feature.icon %}<span class="cmg-feature-icon">{{ feature.icon }}</span>{% endif %}
+      <h3>{{ feature.title }}</h3>
+    </div>
+    <p>{{ feature.description }}</p>
+    {% if feature.link %}
+    <a class="md-button md-button--ghost" href="{{ feature.link | url }}"> {{ feature.label | default('Ver más') }} </a>
+    {% endif %}
+  </article>
+  {% endfor %}
+</section>
+{% endif %} {% endblock %}
