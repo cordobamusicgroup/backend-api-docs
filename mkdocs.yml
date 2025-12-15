@@ -8,7 +8,6 @@ edit_uri: edit/main/docs/
 theme:
   name: material
   language: en
-  custom_dir: overrides
   features:
     - navigation.instant
     - navigation.instant.prefetch
@@ -47,10 +46,6 @@ theme:
 plugins:
   - search:
       lang: en
-  - social:
-      cards_layout: default/variant
-  - minify:
-      minify_html: true
 
 markdown_extensions:
   - abbr
@@ -58,45 +53,21 @@ markdown_extensions:
   - attr_list
   - def_list
   - footnotes
-  - md_in_html
   - tables
   - toc:
       permalink: true
-  - pymdownx.arithmatex:
-      generic: true
-  - pymdownx.betterem:
-      smart_enable: all
-  - pymdownx.caret
-  - pymdownx.details
-  - pymdownx.emoji:
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
   - pymdownx.highlight:
       use_pygments: true
-      anchor_linenums: true
-      line_spans: __span
   - pymdownx.inlinehilite
-  - pymdownx.keys
-  - pymdownx.magiclink:
-      repo_url_shortener: true
-      repo_url_shorthand: true
-      user: cordobamusicgroup
-      repo: backend-api-docs
-  - pymdownx.mark
-  - pymdownx.smartsymbols
-  - pymdownx.snippets
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
-      slugify: !!python/object:pymdownx.slugs:slugify
-        case: lower
   - pymdownx.tasklist:
       custom_checkbox: true
-  - pymdownx.tilde
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:pymdownx.emoji.twemoji
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
 
 nav:
   - Home: index.md
@@ -113,14 +84,5 @@ nav:
       - Overview: api/index.md
       - Financial Reports: api/financial-reports.md
       - Music Distribution: api/music-distribution.md
-
-extra:
-  social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/cordobamusicgroup
-      name: GitHub
-  version:
-    provider: mike
-    default: latest
 
 copyright: Copyright &copy; 2025 Córdoba Music Group
