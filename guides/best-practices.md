@@ -12,6 +12,7 @@ This guide provides recommendations for using the CMG API in production environm
 ### Token Management
 
 #### ✅ Best Practices
+
 - Store tokens securely in memory or secure HTTP-only cookies
 - Refresh tokens before expiration (proactively)
 - Handle 401 responses by refreshing and retrying
@@ -19,6 +20,7 @@ This guide provides recommendations for using the CMG API in production environm
 - Use HTTPS in production (required)
 
 #### ❌ Avoid
+
 - Storing tokens in localStorage (XSS vulnerability)
 - Logging or printing tokens
 - Hardcoding tokens in source code
@@ -33,7 +35,7 @@ class SecureTokenStore {
   setToken(token, expiresIn) {
     // Store only in memory or secure HTTP-only cookie
     this.token = token;
-    this.expiresAt = Date.now() + (expiresIn * 1000);
+    this.expiresAt = Date.now() + expiresIn * 1000;
     this.scheduleRefresh();
   }
 
@@ -41,7 +43,7 @@ class SecureTokenStore {
     // Refresh 1 minute before expiry
     const timeUntilExpiry = this.expiresAt - Date.now();
     const refreshTime = timeUntilExpiry - 60000;
-    
+
     if (refreshTime > 0) {
       setTimeout(() => this.refreshToken(), refreshTime);
     }
@@ -83,41 +85,40 @@ async function makeRequestWithRetry(url, options, maxRetries = 3) {
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
       const response = await fetch(url, options);
-      
+
       if (response.status === 401) {
         // Token expired - refresh and retry
         await refreshToken();
         options.headers.Authorization = `Bearer ${newToken}`;
         continue;
       }
-      
+
       if (response.ok) {
         return await response.json();
       }
-      
+
       if (response.status === 429) {
         // Rate limited - exponential backoff
         const waitTime = Math.pow(2, attempt) * 1000;
-        await new Promise(resolve => setTimeout(resolve, waitTime));
+        await new Promise((resolve) => setTimeout(resolve, waitTime));
         continue;
       }
-      
+
       if (response.status >= 500) {
         // Server error - retry with exponential backoff
         const waitTime = Math.pow(2, attempt) * 1000;
-        await new Promise(resolve => setTimeout(resolve, waitTime));
+        await new Promise((resolve) => setTimeout(resolve, waitTime));
         continue;
       }
-      
+
       // Client error - don't retry
       const error = await response.json();
       throw new Error(error.message);
-      
     } catch (error) {
       if (attempt === maxRetries - 1) throw error;
-      
+
       const waitTime = Math.pow(2, attempt) * 1000;
-      await new Promise(resolve => setTimeout(resolve, waitTime));
+      await new Promise((resolve) => setTimeout(resolve, waitTime));
     }
   }
 }
@@ -128,33 +129,33 @@ async function makeRequestWithRetry(url, options, maxRetries = 3) {
 ```javascript
 async function handleAPIError(response, context) {
   const data = await response.json();
-  
+
   switch (response.status) {
     case 400:
       console.error(`Invalid request: ${data.message}`);
       // Show user-friendly error
       return { error: data.message, userMessage: "Please check your input" };
-      
+
     case 401:
       // Automatically handled by retry logic
-      return { error: 'Authentication expired', retry: true };
-      
+      return { error: "Authentication expired", retry: true };
+
     case 403:
       console.error(`Access denied: ${data.message}`);
-      return { error: 'You do not have permission' };
-      
+      return { error: "You do not have permission" };
+
     case 404:
-      return { error: 'Resource not found' };
-      
+      return { error: "Resource not found" };
+
     case 429:
-      return { error: 'Too many requests', retry: true };
-      
+      return { error: "Too many requests", retry: true };
+
     case 500:
       console.error(`Server error: ${data.message}`);
-      return { error: 'Server error, please try again later', retry: true };
-      
+      return { error: "Server error, please try again later", retry: true };
+
     default:
-      return { error: 'Unknown error' };
+      return { error: "Unknown error" };
   }
 }
 ```
@@ -180,26 +181,26 @@ class RateLimitManager {
 
   async waitIfNeeded() {
     const now = Date.now();
-    
+
     // Remove old requests outside window
-    this.requests = this.requests.filter(time => now - time < this.windowMs);
-    
+    this.requests = this.requests.filter((time) => now - time < this.windowMs);
+
     if (this.requests.length >= this.maxRequests) {
       const oldestRequest = this.requests[0];
       const waitTime = this.windowMs - (now - oldestRequest);
-      
+
       if (waitTime > 0) {
         console.warn(`Rate limit approaching. Waiting ${waitTime}ms`);
-        await new Promise(resolve => setTimeout(resolve, waitTime));
+        await new Promise((resolve) => setTimeout(resolve, waitTime));
       }
     }
-    
+
     this.requests.push(Date.now());
   }
 
   getRemainingRequests() {
     const now = Date.now();
-    const recentRequests = this.requests.filter(time => now - time < this.windowMs);
+    const recentRequests = this.requests.filter((time) => now - time < this.windowMs);
     return this.maxRequests - recentRequests.length;
   }
 }
@@ -214,7 +215,8 @@ class RateLimitManager {
 
 ```javascript
 class APICache {
-  constructor(ttlMs = 300000) { // 5 minutes default
+  constructor(ttlMs = 300000) {
+    // 5 minutes default
     this.cache = new Map();
     this.ttlMs = ttlMs;
   }
@@ -222,19 +224,19 @@ class APICache {
   get(key) {
     const item = this.cache.get(key);
     if (!item) return null;
-    
+
     if (Date.now() - item.timestamp > this.ttlMs) {
       this.cache.delete(key);
       return null;
     }
-    
+
     return item.data;
   }
 
   set(key, data) {
     this.cache.set(key, {
       data,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   }
 
@@ -251,6 +253,7 @@ class APICache {
 ### What to Log
 
 ✅ **Do log:**
+
 - API request/response status codes
 - Error messages and stack traces
 - Authentication events
@@ -258,6 +261,7 @@ class APICache {
 - Rate limit events
 
 ❌ **Don't log:**
+
 - Request/response bodies (may contain sensitive data)
 - Authentication tokens
 - Passwords or credentials
@@ -289,6 +293,7 @@ class APILogger {
 ### Monitoring Alerts
 
 Set up alerts for:
+
 - High error rates (>5% of requests failing)
 - Repeated 401 errors (token issues)
 - Repeated 429 errors (rate limiting)
@@ -305,8 +310,8 @@ Set up alerts for:
 async function downloadReportSafely(url, filename) {
   try {
     // Validate URL before download
-    if (!url.startsWith('https://')) {
-      throw new Error('URL must be HTTPS');
+    if (!url.startsWith("https://")) {
+      throw new Error("URL must be HTTPS");
     }
 
     // Fetch with timeout
@@ -315,7 +320,7 @@ async function downloadReportSafely(url, filename) {
 
     const response = await fetch(url, {
       signal: controller.signal,
-      credentials: 'omit' // Presigned URLs don't need credentials
+      credentials: "omit", // Presigned URLs don't need credentials
     });
 
     clearTimeout(timeout);
@@ -326,25 +331,24 @@ async function downloadReportSafely(url, filename) {
     }
 
     // Validate content type
-    const contentType = response.headers.get('content-type');
-    if (!contentType?.includes('text/csv')) {
+    const contentType = response.headers.get("content-type");
+    if (!contentType?.includes("text/csv")) {
       console.warn(`Unexpected content type: ${contentType}`);
     }
 
     // Validate file size (e.g., max 500MB)
-    const contentLength = response.headers.get('content-length');
+    const contentLength = response.headers.get("content-length");
     if (contentLength > 500 * 1024 * 1024) {
-      throw new Error('File too large');
+      throw new Error("File too large");
     }
 
     // Stream to file
     const blob = await response.blob();
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = filename || 'report.csv';
+    link.download = filename || "report.csv";
     link.click();
     URL.revokeObjectURL(link.href);
-
   } catch (error) {
     console.error(`Download failed: ${error.message}`);
     throw error;
@@ -356,7 +360,8 @@ async function downloadReportSafely(url, filename) {
 
 ```javascript
 class DownloadURLManager {
-  constructor(expirationMs = 3600000) { // 1 hour
+  constructor(expirationMs = 3600000) {
+    // 1 hour
     this.urls = new Map();
     this.expirationMs = expirationMs;
   }
@@ -368,20 +373,20 @@ class DownloadURLManager {
 
   getURL(key) {
     const item = this.urls.get(key);
-    
+
     if (!item) return null;
     if (Date.now() > item.expiresAt) {
       this.urls.delete(key);
       return null; // URL expired, request fresh one
     }
-    
+
     return item.url;
   }
 
   isExpiring(key) {
     const item = this.urls.get(key);
     if (!item) return true;
-    
+
     const timeRemaining = item.expiresAt - Date.now();
     return timeRemaining < 300000; // 5 minutes remaining
   }

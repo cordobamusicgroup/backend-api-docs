@@ -10,6 +10,7 @@ Complete reference for the financial reporting endpoints.
 ## 📊 Overview
 
 The Financial Reports API allows you to:
+
 - Retrieve all financial reports for authenticated users
 - Filter reports by distributor (KONTOR, BELIEVE, etc.)
 - Download reports in multiple formats
@@ -26,15 +27,16 @@ Retrieve all financial reports for the authenticated user, filtered by distribut
 **Endpoint:** `GET /financial/reports/user-reports/current`
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Query Parameters:**
 
-| Parameter | Required | Type | Description |
-|-----------|----------|------|-------------|
-| `distributor` | Yes | string | Music distributor: `KONTOR` or `BELIEVE` |
+| Parameter     | Required | Type   | Description                              |
+| ------------- | -------- | ------ | ---------------------------------------- |
+| `distributor` | Yes      | string | Music distributor: `KONTOR` or `BELIEVE` |
 
 ### Example Request
 
@@ -74,17 +76,17 @@ curl -X GET "https://api.example.com/financial/reports/user-reports/current?dist
 
 ### Response Fields
 
-| Field | Type | Description | Example |
-|-------|------|-------------|---------|
-| `id` | number | Unique report identifier (use for downloads) | `7289` |
-| `createdAt` | string | Report creation date (ISO 8601) | `2025-10-30T14:34:32.382Z` |
-| `updatedAt` | string | Last update timestamp (ISO 8601) | `2025-11-08T21:45:40.775Z` |
-| `currency` | string | Currency code | `EUR`, `USD` |
-| `distributor` | string | Distributor name | `KONTOR`, `BELIEVE` |
-| `reportingMonth` | string | Report period (YYYYMM format) | `202508` |
-| `totalRoyalties` | number | Total royalty amount for period | `86.4017394675` |
-| `debitState` | string | Payment status | `PENDING`, `PAID`, `CANCELLED` |
-| `paidOn` | string | Payment date or null | `2025-11-08T21:45:40.628Z` |
+| Field            | Type   | Description                                  | Example                        |
+| ---------------- | ------ | -------------------------------------------- | ------------------------------ |
+| `id`             | number | Unique report identifier (use for downloads) | `7289`                         |
+| `createdAt`      | string | Report creation date (ISO 8601)              | `2025-10-30T14:34:32.382Z`     |
+| `updatedAt`      | string | Last update timestamp (ISO 8601)             | `2025-11-08T21:45:40.775Z`     |
+| `currency`       | string | Currency code                                | `EUR`, `USD`                   |
+| `distributor`    | string | Distributor name                             | `KONTOR`, `BELIEVE`            |
+| `reportingMonth` | string | Report period (YYYYMM format)                | `202508`                       |
+| `totalRoyalties` | number | Total royalty amount for period              | `86.4017394675`                |
+| `debitState`     | string | Payment status                               | `PENDING`, `PAID`, `CANCELLED` |
+| `paidOn`         | string | Payment date or null                         | `2025-11-08T21:45:40.628Z`     |
 
 ---
 
@@ -98,11 +100,12 @@ Get download links for a specific report. Reports are available in multiple grou
 
 **Path Parameters:**
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `id` | number | Report ID from the reports list |
+| Parameter | Type   | Description                     |
+| --------- | ------ | ------------------------------- |
+| `id`      | number | Report ID from the reports list |
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
@@ -129,14 +132,14 @@ curl -X GET "https://api.example.com/financial/reports/user-reports/download/opt
 
 ### Download Format Options
 
-| Field | Description | Use Case |
-|-------|-------------|----------|
-| `groupedByLabels` | Data grouped by record labels | Analyze performance by label |
-| `groupedByArtists` | Data grouped by artists | Track artist earnings |
-| `groupedByReleases` | Data grouped by music releases | Analyze release performance |
-| `groupedByPlatform` | Data grouped by streaming platforms | Compare platform performance |
-| `groupedByCountries` | Data grouped by countries | Analyze geographic distribution |
-| `fullCatalog` | Complete detailed data | Complete analysis or archiving |
+| Field                | Description                         | Use Case                        |
+| -------------------- | ----------------------------------- | ------------------------------- |
+| `groupedByLabels`    | Data grouped by record labels       | Analyze performance by label    |
+| `groupedByArtists`   | Data grouped by artists             | Track artist earnings           |
+| `groupedByReleases`  | Data grouped by music releases      | Analyze release performance     |
+| `groupedByPlatform`  | Data grouped by streaming platforms | Compare platform performance    |
+| `groupedByCountries` | Data grouped by countries           | Analyze geographic distribution |
+| `fullCatalog`        | Complete detailed data              | Complete analysis or archiving  |
 
 ### Important Notes
 
@@ -153,6 +156,7 @@ curl -X GET "https://api.example.com/financial/reports/user-reports/download/opt
 ### Downloading Files
 
 **Using cURL:**
+
 ```bash
 curl -O "https://s3.amazonaws.com/bucket/reports/7289_full.csv?..."
 ```
@@ -161,6 +165,7 @@ curl -O "https://s3.amazonaws.com/bucket/reports/7289_full.csv?..."
 Simply open the URL in your browser
 
 **Using Python:**
+
 ```python
 import requests
 
@@ -170,13 +175,14 @@ with open('report.csv', 'wb') as f:
 ```
 
 **Using JavaScript:**
+
 ```javascript
 fetch(url)
-  .then(response => response.blob())
-  .then(blob => {
-    const link = document.createElement('a');
+  .then((response) => response.blob())
+  .then((blob) => {
+    const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = 'report.csv';
+    link.download = "report.csv";
     link.click();
   });
 ```
@@ -286,12 +292,14 @@ File is now saved locally.
 ## Best Practices
 
 ✅ **Do:**
+
 - Request fresh download URLs each time (don't cache)
 - Use appropriate grouping format for your analysis
 - Handle 429 errors with exponential backoff
 - Download files immediately after getting URLs
 
 ❌ **Don't:**
+
 - Store download URLs permanently
 - Assume URLs don't expire
 - Request too many reports in quick succession
@@ -303,17 +311,17 @@ File is now saved locally.
 
 ### Distributor Values
 
-| Value | Name | Region |
-|-------|------|--------|
-| `KONTOR` | Kontor New Media | Europe |
-| `BELIEVE` | Believe Digital | Global |
+| Value     | Name             | Region |
+| --------- | ---------------- | ------ |
+| `KONTOR`  | Kontor New Media | Europe |
+| `BELIEVE` | Believe Digital  | Global |
 
 ### Payment Status (debitState)
 
-| Status | Meaning |
-|--------|---------|
-| `PENDING` | Payment processing or scheduled |
-| `PAID` | Payment completed |
+| Status      | Meaning                           |
+| ----------- | --------------------------------- |
+| `PENDING`   | Payment processing or scheduled   |
+| `PAID`      | Payment completed                 |
 | `CANCELLED` | Payment was cancelled or rejected |
 
 ### Reporting Month Format
@@ -321,6 +329,7 @@ File is now saved locally.
 Format: `YYYYMM`
 
 Examples:
+
 - `202501` = January 2025
 - `202508` = August 2025
 - `202512` = December 2025

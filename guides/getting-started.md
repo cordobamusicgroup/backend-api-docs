@@ -13,11 +13,11 @@ All API endpoints are accessible at your environment's base URL:
 
 ### Environments
 
-| Environment | Base URL | Purpose |
-|-------------|----------|---------|
-| **Development** | `http://localhost:3000` | Local development |
-| **Staging** | `[Contact admin]` | Pre-production testing |
-| **Production** | `[Contact admin]` | Live production system |
+| Environment     | Base URL                | Purpose                |
+| --------------- | ----------------------- | ---------------------- |
+| **Development** | `http://localhost:3000` | Local development      |
+| **Staging**     | `[Contact admin]`       | Pre-production testing |
+| **Production**  | `[Contact admin]`       | Live production system |
 
 > **Note:** Contact your administrator for staging and production URLs and credentials.
 
@@ -50,6 +50,7 @@ curl -X POST https://api.example.com/auth/login \
 ```
 
 **Response:**
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -77,15 +78,15 @@ Already shown above! cURL is available on most systems.
 ### Using JavaScript/Node.js
 
 ```javascript
-const response = await fetch('https://api.example.com/auth/login', {
-  method: 'POST',
+const response = await fetch("https://api.example.com/auth/login", {
+  method: "POST",
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    username: 'your_username',
-    password: 'your_password',
-  })
+    username: "your_username",
+    password: "your_password",
+  }),
 });
 
 const data = await response.json();
@@ -196,15 +197,15 @@ All responses follow a standard JSON format:
 
 ## ✅ Common Status Codes
 
-| Code | Meaning | Action |
-|------|---------|--------|
-| 200 | Success | Request completed |
-| 400 | Bad Request | Check parameters |
-| 401 | Unauthorized | Token invalid/expired - login again |
-| 403 | Forbidden | No permission for this resource |
-| 404 | Not Found | Resource doesn't exist |
-| 429 | Too Many Requests | Wait before retrying |
-| 500 | Server Error | Try again later |
+| Code | Meaning           | Action                              |
+| ---- | ----------------- | ----------------------------------- |
+| 200  | Success           | Request completed                   |
+| 400  | Bad Request       | Check parameters                    |
+| 401  | Unauthorized      | Token invalid/expired - login again |
+| 403  | Forbidden         | No permission for this resource     |
+| 404  | Not Found         | Resource doesn't exist              |
+| 429  | Too Many Requests | Wait before retrying                |
+| 500  | Server Error      | Try again later                     |
 
 ---
 

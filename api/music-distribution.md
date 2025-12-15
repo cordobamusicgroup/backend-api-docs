@@ -10,6 +10,7 @@ Complete reference for music distribution and quality control endpoints.
 ## 🎵 Overview
 
 The Music Distribution API allows you to:
+
 - Submit music releases for quality control (QC)
 - Integrate with the WordPress legacy QC system
 - Propose track and album metadata changes
@@ -26,12 +27,14 @@ Submit a music release to the WordPress legacy system for quality control review
 **Endpoint:** `POST /external/wordpress/submit-release`
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 Content-Type: application/json
 ```
 
 **Body:**
+
 ```json
 {
   "productCode": "1234567890123",
@@ -49,19 +52,20 @@ Content-Type: application/json
 
 ### Request Fields
 
-| Field | Type | Required | Description | Example |
-|-------|------|----------|-------------|---------|
-| `productCode` | string | Yes | EAN/UPC code (13 digits) | `1234567890123` |
-| `newAlbumTitle` | string | No | Proposed new album title | `Greatest Hits (Deluxe)` |
-| `newAlbumVersion` | string | No | Proposed version for album | `Explicit` |
-| `trackChanges` | array | No | List of track modifications | See below |
-| `trackChanges[].trackId` | string | Yes | DMB Track ID | `98765` |
-| `trackChanges[].newTitle` | string | No | Proposed track title | `Hit Song` |
-| `trackChanges[].newVersion` | string | No | Proposed track version | `Radio Edit` |
+| Field                       | Type   | Required | Description                 | Example                  |
+| --------------------------- | ------ | -------- | --------------------------- | ------------------------ |
+| `productCode`               | string | Yes      | EAN/UPC code (13 digits)    | `1234567890123`          |
+| `newAlbumTitle`             | string | No       | Proposed new album title    | `Greatest Hits (Deluxe)` |
+| `newAlbumVersion`           | string | No       | Proposed version for album  | `Explicit`               |
+| `trackChanges`              | array  | No       | List of track modifications | See below                |
+| `trackChanges[].trackId`    | string | Yes      | DMB Track ID                | `98765`                  |
+| `trackChanges[].newTitle`   | string | No       | Proposed track title        | `Hit Song`               |
+| `trackChanges[].newVersion` | string | No       | Proposed track version      | `Radio Edit`             |
 
 ### Example Requests
 
 **Basic submission (album only):**
+
 ```bash
 curl -X POST https://api.example.com/external/wordpress/submit-release \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
@@ -72,6 +76,7 @@ curl -X POST https://api.example.com/external/wordpress/submit-release \
 ```
 
 **With album changes:**
+
 ```bash
 curl -X POST https://api.example.com/external/wordpress/submit-release \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
@@ -84,6 +89,7 @@ curl -X POST https://api.example.com/external/wordpress/submit-release \
 ```
 
 **With track changes:**
+
 ```bash
 curl -X POST https://api.example.com/external/wordpress/submit-release \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
@@ -105,6 +111,7 @@ curl -X POST https://api.example.com/external/wordpress/submit-release \
 ```
 
 **Complete submission:**
+
 ```bash
 curl -X POST https://api.example.com/external/wordpress/submit-release \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
@@ -141,13 +148,13 @@ curl -X POST https://api.example.com/external/wordpress/submit-release \
 
 ### Response Fields
 
-| Field | Type | Description | Example |
-|-------|------|-------------|---------|
-| `entryId` | number | WordPress Gravity Forms entry ID | `42` |
-| `productCode` | string | EAN/UPC code submitted | `1234567890123` |
-| `releaseTitle` | string | Title of the release | `Greatest Hits` |
-| `submittedAt` | string | Submission timestamp (ISO 8601) | `2025-11-11T15:30:00.000Z` |
-| `gravityFormsUrl` | string | Direct link to WordPress entry | `https://wordpress.example.com/...` |
+| Field             | Type   | Description                      | Example                             |
+| ----------------- | ------ | -------------------------------- | ----------------------------------- |
+| `entryId`         | number | WordPress Gravity Forms entry ID | `42`                                |
+| `productCode`     | string | EAN/UPC code submitted           | `1234567890123`                     |
+| `releaseTitle`    | string | Title of the release             | `Greatest Hits`                     |
+| `submittedAt`     | string | Submission timestamp (ISO 8601)  | `2025-11-11T15:30:00.000Z`          |
+| `gravityFormsUrl` | string | Direct link to WordPress entry   | `https://wordpress.example.com/...` |
 
 ---
 
@@ -156,24 +163,29 @@ curl -X POST https://api.example.com/external/wordpress/submit-release \
 The submission process works as follows:
 
 ### 1️⃣ Validation
+
 - System validates the product code format (13 digits)
 - Checks if release exists in DMB
 
 ### 2️⃣ Status Check
+
 - Verifies release is in **"Ready for QC"** status
 - Ensures no conflicting submissions exist
 
 ### 3️⃣ Data Fetching
+
 - Retrieves complete release metadata from DMB
 - Includes: tracks, artists, labels, formats, etc.
 - Combines with user-provided metadata changes
 
 ### 4️⃣ Submission
+
 - Submits all data to WordPress Gravity Forms (Form 91)
 - Includes authenticated user information
 - Stores submission metadata
 
 ### 5️⃣ Response
+
 - Returns WordPress entry ID
 - Provides link to view submission in WordPress
 - Confirmation of successful processing
@@ -273,9 +285,11 @@ The submission process works as follows:
 ### Release Status Requirements
 
 Only releases in these DMB statuses can be submitted:
+
 - ✅ `Ready for QC` - Can submit
 
 Releases in other statuses cannot be submitted:
+
 - ❌ `Draft` - Still being prepared
 - ❌ `Released` - Already released
 - ❌ `Rejected` - Failed QC previously
@@ -306,6 +320,7 @@ Check that your release in DMB is in "Ready for QC" status.
 ### Step 2: Prepare Changes
 
 Decide which metadata needs correcting:
+
 - Album title corrections
 - Track title corrections
 - Version information
@@ -348,12 +363,14 @@ Visit the gravityFormsUrl to see QC reviewer comments and status.
 ## Best Practices
 
 ✅ **Do:**
+
 - Verify release status before submitting
 - Test with one track before submitting album-wide changes
 - Keep product codes secure (they're sensitive)
 - Use the gravityFormsUrl to monitor QC progress
 
 ❌ **Don't:**
+
 - Submit releases multiple times for the same corrections
 - Submit incomplete or test product codes
 - Change multiple unrelated things at once
@@ -364,19 +381,23 @@ Visit the gravityFormsUrl to see QC reviewer comments and status.
 ## Troubleshooting
 
 ### "Release not found in DMB"
+
 - Verify product code is correct (13 digits)
 - Check that release exists in DMB
 
 ### "Release not ready for QC"
+
 - Check release status in DMB
 - Ensure it's in "Ready for QC" status
 
 ### "Failed to submit to WordPress"
+
 - Check your internet connection
 - Verify WordPress service is available
 - Try again in a few moments
 
 ### Submission appears to succeed but no WordPress entry
+
 - Check gravityFormsUrl from response
 - May take a few seconds to appear in WordPress
 - Contact support if issue persists

@@ -29,11 +29,13 @@ Authenticate and receive an access token.
 **Endpoint:** `POST /auth/login`
 
 **Headers:**
+
 ```
 Content-Type: application/json
 ```
 
 **Body:**
+
 ```json
 {
   "username": "your_username",
@@ -52,14 +54,15 @@ Content-Type: application/json
 
 ### Response Fields
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `access_token` | string | JWT token for authenticated requests |
-| `expires_in` | number | Token lifetime in seconds (900 = 15 minutes) |
+| Field          | Type   | Description                                  |
+| -------------- | ------ | -------------------------------------------- |
+| `access_token` | string | JWT token for authenticated requests         |
+| `expires_in`   | number | Token lifetime in seconds (900 = 15 minutes) |
 
 ### Example Usage
 
 **cURL:**
+
 ```bash
 curl -X POST https://api.example.com/auth/login \
   -H "Content-Type: application/json" \
@@ -70,16 +73,17 @@ curl -X POST https://api.example.com/auth/login \
 ```
 
 **JavaScript:**
+
 ```javascript
-const response = await fetch('https://api.example.com/auth/login', {
-  method: 'POST',
+const response = await fetch("https://api.example.com/auth/login", {
+  method: "POST",
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    username: 'john.doe',
-    password: 'securePassword123',
-  })
+    username: "john.doe",
+    password: "securePassword123",
+  }),
 });
 
 const { access_token } = await response.json();
@@ -113,6 +117,7 @@ When your access token expires, obtain a new one without re-entering credentials
 **Endpoint:** `POST /auth/refresh`
 
 **Headers:**
+
 ```
 Cookie: refresh_token=<your_refresh_token>
 ```
@@ -146,42 +151,43 @@ class APIClient {
 
   async login(username, password) {
     const response = await fetch(`${this.baseURL}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
     });
-    
+
     const data = await response.json();
     this.accessToken = data.access_token;
-    this.expiresAt = Date.now() + (data.expires_in * 1000);
+    this.expiresAt = Date.now() + data.expires_in * 1000;
   }
 
   async refresh() {
     const response = await fetch(`${this.baseURL}/auth/refresh`, {
-      method: 'POST',
-      credentials: 'include'  // Send cookies
+      method: "POST",
+      credentials: "include", // Send cookies
     });
-    
+
     const data = await response.json();
     this.accessToken = data.access_token;
-    this.expiresAt = Date.now() + (data.expires_in * 1000);
+    this.expiresAt = Date.now() + data.expires_in * 1000;
   }
 
   async request(endpoint, options = {}) {
     // Refresh if token expired or about to expire
-    if (Date.now() >= this.expiresAt - 60000) {  // 1 minute before expiry
+    if (Date.now() >= this.expiresAt - 60000) {
+      // 1 minute before expiry
       await this.refresh();
     }
 
     const headers = {
       ...options.headers,
-      'Authorization': `Bearer ${this.accessToken}`
+      Authorization: `Bearer ${this.accessToken}`,
     };
 
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...options,
       headers,
-      credentials: 'include'
+      credentials: "include",
     });
 
     if (response.status === 401) {
@@ -206,6 +212,7 @@ Retrieve information about the authenticated user.
 **Endpoint:** `GET /auth/me`
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
@@ -225,13 +232,13 @@ Authorization: Bearer <access_token>
 
 ### Response Fields
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | number | Unique user identifier |
-| `username` | string | Login username |
-| `email` | string | User email address |
-| `role` | string | User role (`USER` or `ADMIN`) |
-| `clientId` | number | Associated client/account ID |
+| Field       | Type   | Description                      |
+| ----------- | ------ | -------------------------------- |
+| `id`        | number | Unique user identifier           |
+| `username`  | string | Login username                   |
+| `email`     | string | User email address               |
+| `role`      | string | User role (`USER` or `ADMIN`)    |
+| `clientId`  | number | Associated client/account ID     |
 | `createdAt` | string | Account creation date (ISO 8601) |
 
 ---
@@ -245,6 +252,7 @@ End your session and revoke tokens.
 **Endpoint:** `POST /auth/logout`
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
